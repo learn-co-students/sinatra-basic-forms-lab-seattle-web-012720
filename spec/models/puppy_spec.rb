@@ -1,4 +1,4 @@
-describe 'Puppy class' do
+describe 'Puppy class' do 
   let!(:puppy) {
     #arity is the number of arguments that a method accepts
     arity = Puppy.instance_method(:initialize).arity
