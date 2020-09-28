@@ -1,37 +1,35 @@
-require 'pry'
+require "pry"
 describe App do
-
-  describe 'GET /' do
-
-    it 'sends a 200 status code' do
-      get '/'
+  describe "GET /" do
+    it "sends a 200 status code" do
+      get "/"
       expect(last_response.status).to eq(200)
     end
 
     it 'has a link with the text "List A Puppy"' do
-      visit '/'
+      visit "/"
       expect(page).to have_link("List A Puppy")
     end
 
-    it 'has a link to list a puppy that links to /new' do
-      visit '/'
-      expect(page).to have_link("List A Puppy", href: '/new')
+    it "has a link to list a puppy that links to /new" do
+      visit "/"
+      expect(page).to have_link("List A Puppy", href: "/new")
     end
   end
 
-  describe 'GET /new' do
-    it 'sends a 200 status code' do
-      get '/new'
+  describe "GET /new" do
+    it "sends a 200 status code" do
+      get "/new"
       expect(last_response.status).to eq(200)
     end
 
-    it 'renders a form that can POST a name, breed, and age' do
-      visit '/new'
+    it "renders a form that can POST a name, breed, and age" do
+      visit "/new"
 
       expect(page).to have_selector("form")
 
       #form method attribute is a post
-      expect(page.find('form')[:method]).to match(/post/i)
+      expect(page.find("form")[:method]).to match(/post/i)
 
       expect(page).to have_field(:name)
       expect(page).to have_field(:breed)
@@ -39,10 +37,9 @@ describe App do
     end
   end
 
-  describe 'POST /puppy' do
-
+  describe "POST /puppy" do
     before(:all) do
-      visit '/new'
+      visit "/new"
 
       fill_in(:name, :with => "Butch")
       fill_in(:breed, :with => "Mastiff")
@@ -50,7 +47,7 @@ describe App do
 
       #the below css will match any element (input or button)
       #with a type attribute set to submit
-      page.find(:css, '[type=submit]').click
+      page.find(:css, "[type=submit]").click
     end
 
     it "sends a 200 status code" do
@@ -68,7 +65,7 @@ describe App do
       expect(page).to have_text(/Age:\s+6 months/i)
 
       #now do it again, to be sure it's not hard-coded
-      visit '/new'
+      visit "/new"
 
       fill_in(:name, :with => "Byron")
       fill_in(:breed, :with => "Poodle")
@@ -76,12 +73,11 @@ describe App do
 
       #the below css will match any element (input or button)
       #with a type attribute set to submit
-      page.find(:css, '[type=submit]').click
+      page.find(:css, "[type=submit]").click
 
       expect(page).to have_text(/Name:\s+Byron/i)
       expect(page).to have_text(/Breed:\s+Poodle/i)
       expect(page).to have_text(/Age:\s+9 months/i)
     end
   end
-
 end
